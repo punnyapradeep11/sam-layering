@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A starter AWS Lambda function.
+Resources:
+  helloworld:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: s3://sam-hello-world-test/30b37d3b6471ec0fc92b2c46d2c5254d
+      Description: A starter AWS Lambda function.
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get

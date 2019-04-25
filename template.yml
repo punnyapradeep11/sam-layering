@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: A starter AWS Lambda function.
+
+Resources:
+  helloworld:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: .
+      Layers:
+              - !Ref FirstLayer
+              # - !Ref SecondLayer
+              - arn:aws:lambda:us-east-1:885287672699:layer:sam-layer:1
+      Description: A starter AWS Lambda function.
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/hello'
+            Method: get
+  FirstLayer:
+        Type: AWS::Serverless::LayerVersion
+        Properties:
+            LayerName: sam-first-layer-dependencies
+            Description: Dependencies for sam app
+            ContentUri: dependencies/nodejs/firstLayer
+            CompatibleRuntimes:
+              - nodejs6.10
+              - nodejs8.10
+            LicenseInfo: 'MIT'
+            RetentionPolicy: Retain
+  SecondLayer:
+        Type: AWS::Serverless::LayerVersion
+        Properties:
+            LayerName: sam-second-layer-dependencies
+            Description: Dependencies for sam app
+            ContentUri: dependencies/nodejs/secondLayer
+            CompatibleRuntimes:
+              - nodejs6.10
+              - nodejs8.10
+            LicenseInfo: 'MIT'
+            RetentionPolicy: Retain
